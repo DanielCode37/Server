@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- header -->
+    <div class="header">Test chat</div>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <ul id="chat-list">
+            <li class="chat-list-item">
+                <div>TEST_CHAT</div>
+            </li>
+            <li class="chat-list-item">
+                <div>TEST_CHAeifnonsT</div>
+            </li>
+            <li class="chat-list-item">
+                <div>TEST_CHAT</div>
+            </li>
+        </ul>
+    </div>
+    <!-- body -->
+    <div class="chat-body">
+        <ul id="chat">
+        </ul>
+    </div>
+    <!-- input -->
+    <div class="input">
+        <input type="text" id="input" class="text-input" placeholder="Enter message:" />
+        <button class="input-button" onclick="new Message(document.getElementById('input').value).post()">Send</button>
+    </div>
+    <script src="./classes/message.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
