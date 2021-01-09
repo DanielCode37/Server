@@ -4,6 +4,7 @@ const validation = require("../validation");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
+const config = require("../config.json");
 
 //--------------------REGISTER-------------------------------
 router.post("/register", async (req, res) => {
@@ -38,7 +39,7 @@ router.post("/login", async (req, res) => {
 
 	console.log(process.env.TOKEN_SECRET);
 	// create and assign jwt
-	const token = jwt.sign({ _id: user._id }, "nonOSGnsognasbfins08i3bakng");
+	const token = jwt.sign({ _id: user._id }, config.TOKEN_SECRET);
 	res.header("auth-token", token);
 
 	res.status(200).send("Logged in!");

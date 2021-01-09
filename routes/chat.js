@@ -4,12 +4,13 @@ const database = require("../mongoDB");
 const path = require("path");
 
 //--------------------HTML-------------------------------
-router.get("/", (req, res) => {
+router.get("/:channel", (req, res) => {
+    console.log(req.params);
     res.sendFile(path.join(__dirname, "../public", "index.html"));
 });
 
 //--------------------GET-MESSAGES-----------------------
-router.get("/messages", async (req, res) => {
+router.get("/get/messages", async (req, res) => {
     const messages = await database.getMessages();
     res.send(messages);
 });
