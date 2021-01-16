@@ -5,23 +5,40 @@ const path = require("path");
 
 //--------------------HTML-------------------------------
 router.get("/:channel", (req, res) => {
-    console.log(req.params);
-    res.sendFile(path.join(__dirname, "../public", "index.html"));
+    res.sendFile(path.join(__dirname, "../public/chat", "index.html"));
 });
 
 //--------------------GET-MESSAGES-----------------------
-router.get("/get/messages", async (req, res) => {
-    const messages = await database.getMessages();
-    res.send(messages);
+router.get("/get/:channel", async (req, res) => {
+    if (req.params.channel == "*") {
+        const channels = await database.getChannels();
+        res.send(channels);
+    }
+    else {
+        const messages = await database.getMessages(req.params.channel);
+        if (messages) {
+            res.send(messages);
+        }
+        else {
+            res.send("Channel doesn't exist");
+        }
+    }
 });
 
 //--------------------POST-MESSAGE-----------------------
-router.post("/", async (req, res) => {
+router.post("/post/message/:channel", async (req, res) => {
     const message = req.body;
-    const err = await database.addMessage(message);
+    const err = await database.addMessage(message, req.params.channel);
     if (err) {
         res.status(400).send("Message wasn't send due to an error");
     }
+    res.end();
+});
+
+//--------------------ADD-CHANNEL------------------------
+router.post("/post", async (req, res) => {
+    const channel = req.body.name;
+    await database.addChannel(channel);
     res.end();
 });
 

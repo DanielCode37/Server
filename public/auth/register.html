@@ -4,11 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="auth.css">
 </head>
 
 <body>
-    <div>TEST</div>
+    <div class="body">
+        <div class="header">Please Login</div>
+        <form id="login">
+            <div>
+                <label>Name</label>
+                <br>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div>
+                <label>Username</label>
+                <br>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div>
+                <label>Password</label>
+                <br>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <div>
+                <label>Type password again</label>
+                <br>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <br>
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+        </form>
+        <a class="switch" href="../login">Log in</a>
+    </div>
+    <script>
+
+        document.getElementById("login").addEventListener("submit", () => {
+            alert(document.getElementById("name").value);
+            alert(document.getElementById("password").value);
+            fetch("/test/test", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: document.getElementById("name").value,
+                    password: document.getElementById("password").value
+                })
+            }.then(res => console.log(res)));
+        });
+    </script>
 </body>
 
 </html>

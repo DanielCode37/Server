@@ -5,50 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        * {
-            margin: 0px;
-            font-family: sans-serif;
-        }
-
-        body {
-            background-color: rgb(117, 117, 117);
-        }
-
-        .body {
-            position: fixed;
-            top: 40vh;
-            left: 50vw;
-            transform: translate(-50%, -50%);
-
-            padding: 4vw;
-            padding-top: 1vh;
-            border-radius: 2vh;
-            background-color: white;
-        }
-
-        img {
-            width: 10vh;
-            height: 10vh;
-        }
-
-        .header {
-            padding-top: 1vh;
-            padding-bottom: 4vh;
-
-            font-size: 2vh;
-        }
-
-        button {
-            border: 1px solid black;
-            border-radius: 0.5vh;
-        }
-
-        .create-account {
-            margin-top: 10vh;
-            color: rgb(99, 99, 99);
-        }
-    </style>
+    <link rel="stylesheet" href="auth.css">
 </head>
 
 <body>
@@ -57,7 +14,7 @@
         <img src="../images/user.png" />
         <form id="login">
             <div>
-                <label>Name</label>
+                <label>Username</label>
                 <br>
                 <input type="text" name="name" id="name" required>
             </div>
@@ -70,43 +27,25 @@
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>
         </form>
-        <a class="create-account" href="../register">Create account</a>
+        <a class="switch" href="../register">Create account</a>
     </div>
     <script>
-        let create = false;
 
         document.getElementById("login").addEventListener("submit", () => {
             alert(document.getElementById("name").value);
             alert(document.getElementById("password").value);
-            fetch("/login", {
+            fetch("/test/test", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: {
+                body: JSON.stringify({
                     name: document.getElementById("name").value,
                     password: document.getElementById("password").value
-                }
+                })
             }.then(res => console.log(res)));
         });
-        function changeMode() {
-
-        }
-
-        function post() {
-            fetch("/login", {
-                method: "POST",
-                body: {
-                    name: document.getElementById("name"),
-                    password: document.getElementById("password")
-                }
-            }).then(err => {
-                if (err) {
-                    // already used
-                }
-            })
-        }
     </script>
 </body>
 

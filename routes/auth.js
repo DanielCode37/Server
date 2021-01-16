@@ -13,14 +13,14 @@ router.post("/register", async (req, res) => {
 		return res.status(400).send(error.details[0].message);
 	}
 
-	const err = await database.addUser(req.body.name, req.body.username, req.body.password);
+	const err = await database.addUser(req.body);
 	res.send(err);
 });
 
 
 //--------------------LOGIN----------------------------------
 router.post("/login", async (req, res) => {
-	const { error } = await validation.loginValidation(req.body);
+	const { error } = validation.loginValidation(req.body);
 	if (error) {
 		return res.status(400).send(error.details[0].message);
 	}
@@ -37,7 +37,6 @@ router.post("/login", async (req, res) => {
 		return res.status(400).send("Invalid password!");
 	}
 
-	console.log(process.env.TOKEN_SECRET);
 	// create and assign jwt
 	const token = jwt.sign({ _id: user._id }, config.TOKEN_SECRET);
 	res.header("auth-token", token);

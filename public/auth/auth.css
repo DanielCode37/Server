@@ -1,0 +1,43 @@
+* {
+  margin: 0px;
+  font-family: sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, cornflowerblue, green);
+}
+
+.body {
+  position: fixed;
+  top: 40vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+
+  padding: 4vw;
+  padding-top: 1vh;
+  border-radius: 2vh;
+  background-color: white;
+}
+
+img {
+  width: 10vh;
+  height: 10vh;
+}
+
+.header {
+  padding-top: 1vh;
+  padding-bottom: 4vh;
+
+  font-size: 2vh;
+}
+
+button {
+  border: 1px solid black;
+  border-radius: 0.5vh;
+}
+
+.switch {
+  margin-top: 10vh;
+  color: rgb(99, 99, 99);
+}

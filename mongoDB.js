@@ -1,9 +1,14 @@
 const { MongoClient } = require('mongodb');
 const config = require("./config.json");
-const client = new MongoClient(config.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true });
 const bcyrpt = require("bcrypt");
-
 const database = {};
+const client = new MongoClient(config.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true },
+	(err, db) => {
+		if (err) {
+			throw `Failed to connect to the database. ${err.stack}`;
+		}
+	});
+
 
 //--------------------GET-USERS-------------------------------
 database.getUsers = async (username) => {
@@ -11,7 +16,7 @@ database.getUsers = async (username) => {
 		await client.connect();
 		console.log("getting users...");
 		// Use the collection "users"
-		const col = client.db("Users").collection("users");
+		const col = await client.db("Users").collection("users");
 		// Find documents
 		const users = await col.find().toArray();
 		// return collection or users
@@ -22,14 +27,10 @@ database.getUsers = async (username) => {
 	} catch (error) {
 		throw error;
 	}
-
-	finally {
-		await client.close();
-	}
 }
 
 //--------------------ADD-USER--------------------------------
-database.addUser = async (name, username, password) => {
+database.addUser = async (user) => {
 	try {
 		await client.connect();
 		console.log("adding User...");
@@ -37,40 +38,35 @@ database.addUser = async (name, username, password) => {
 		const col = client.db("Users").collection("users");
 
 		// check if username already exits
-		const usernameExits = await col.findOne({ username: username });
-		if (usernameExits) {
-			return `Username "${username}" already exists`;
+		const usernameExists = await col.findOne({ username: user.username });
+		console.log(usernameExists);
+		if (usernameExists) {
+			return `Username "${user.username}" already exists`;
 		}
+
 		// hash password
 		const salt = await bcyrpt.genSalt(10);
-		password = await bcyrpt.hash(password, salt);
+		const password = await bcyrpt.hash(user.password, salt);
 
-		// Construct a user                                                                                                                                                 
-		const user = {
-			"name": name,
-			"username": username,
-			"password": password,
-			"date": new Date()
-		}
+		// Construct a user 
+		user.date = new Date();
+		user.password = password;
+
 		// Insert a single user
 		await col.insertOne(user);
 
 	} catch (err) {
 		throw err;
 	}
-
-	finally {
-		await client.close();
-	}
 }
 
 //--------------------GET-MESSAGES----------------------------
-database.getMessages = async () => {
+database.getMessages = async (collection) => {
 	try {
 		await client.connect();
 		console.log("getting messages...");
 		// Use the collection "users"
-		const col = client.db("Messages").collection("messages");
+		const col = client.db("Messages").collection(collection);
 		// Find documents
 		const messages = await col.find().toArray();
 		// return collection or users
@@ -79,49 +75,36 @@ database.getMessages = async () => {
 	} catch (error) {
 		throw error;
 	}
-
-	finally {
-		await client.close();
-	}
 }
 
 //--------------------ADD-MESSAGE-----------------------------
-database.addMessage = async (message) => {
+database.addMessage = async (message, collection) => {
 	try {
 		await client.connect();
 		console.log("adding message...");
 		// Use the collection "users"
-		const col = client.db("Messages").collection("messages");
+		const col = client.db("Messages").collection(collection);
 		// insert message
 		await col.insertOne(message);
 
 	} catch (error) {
 		throw error;
 	}
-
-	finally {
-		await client.close();
-	}
 }
 
 
 //--------------------GET-CHANNEL-----------------------------
-database.getChannels = async (channel) => {
+database.getChannels = async () => {
 	try {
 		await client.connect();
 		console.log("getting channels...");
-		const db = client.db("Messages");
-		//return hole collection
-		if (channel) {
-			return db.collection(channel);
+		const collections = [];
+		for (let collection of await client.db("Messages").listCollections().toArray()) {
+			collections.push(collection.name);
 		}
-		return db;
+		return collections;
 	} catch (error) {
 		throw error;
-	}
-
-	finally {
-		await client.close();
 	}
 }
 

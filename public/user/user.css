@@ -1,0 +1,56 @@
+* {
+  font-family: sans-serif;
+  margin: 0px;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, orange, purple);
+}
+
+.modal {
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  width: 35vw;
+  height: 80vh;
+  transform: translate(-50%, -50%);
+
+  border: 1px solid black;
+  border-radius: 3vh;
+
+  background-color: rgb(84, 84, 84);
+  color: whitesmoke;
+}
+
+.img {
+  position: fixed;
+  left: 25%;
+  margin-top: 3vh;
+  width: 10vh;
+}
+
+img {
+  width: 10vh;
+}
+
+.names {
+  position: fixed;
+  top: 4.5vh;
+  left: 45%;
+  font-size: 3vh;
+}
+
+.text {
+  position: fixed;
+  top: 30%;
+  left: 2vw;
+  font-size: 3vh;
+  width: 90%;
+  border-bottom: 1px solid black;
+}
+table {
+  position: fixed;
+  top: 35%;
+  padding-left: 2vw;
+}
