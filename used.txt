@@ -1,6 +1,0 @@
-node js
-express js
-bcrypt
-mongo DB
-Joi/Hapi
-jwt
