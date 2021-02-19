@@ -1,4 +1,0 @@
-{
-    "DB_CONNECT": "mongodb+srv://server:npS46NhdVZk6D2Sy@cluster0.hji1t.mongodb.net/Users?retryWrites=true&w=majority",
-    "TOKEN_SECRET": "nonOSGnsognasbfins08i3bakng"
-}
